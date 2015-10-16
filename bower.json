@@ -1,0 +1,27 @@
+{
+  "name": "drones",
+  "main": "index.js",
+  "version": "1.0.0",
+  "authors": [
+    "adrian.pomilio <adrianpomilio@gmail.com>"
+  ],
+  "description": "Bebop drone demo",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "drone",
+    "cylonjs",
+    "bebop",
+    "adrian",
+    "parrot"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
