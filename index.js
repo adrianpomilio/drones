@@ -1,5 +1,8 @@
 var Hapi = require('hapi');
 var Path = require('path');
+var bebop = require('node-bebop');
+var drone = bebop.createClient();
+var fc = require('./flight-controls.js');
 
 
 var server = new Hapi.Server({ connections: {
