@@ -1,7 +1,7 @@
 
 notes.txt
 
-public/bower_components/
+bower_components/
 # Logs
 logs
 *.log
