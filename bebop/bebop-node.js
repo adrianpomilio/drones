@@ -3,6 +3,10 @@ var drone = bebop.createClient();
 
 drone.connect(function() {
     drone.takeOff();
+    drone.on('battery', function(t){
+        console.log(t);
+    });
+    
 
     setTimeout(function() {
         drone.land();

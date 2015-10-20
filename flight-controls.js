@@ -1,7 +1,11 @@
+var bebop = require('node-bebop');
+var drone = bebop.createClient();
+
+
+
 module.exports = {
     flightControls : function(cmd) {
-    console.log(cmd);
-    console.log('flight control called');
+
     switch (cmd) {
         case 'test':
             console.log('testing');
@@ -13,22 +17,27 @@ module.exports = {
             drone.up(2);
             break;
         case 'forward':
-            drone.forward(2);
+            drone.forward(6);
             break;
         case 'back':
-            drone.backward(2);
+            drone.backward(6);
             break;
         case 'left':
-            drone.left(2);
+            drone.left(5);
             break;
 
         case 'right':
-            drone.right(2);
+            drone.right(5);
             break;
         case 'takeoff':
+            
             drone.connect(function() {
                 drone.takeoff(function() {
-                    console.log('we have liftoff');
+                    drone.on('battery', function(t){
+
+                        console.log(t);
+                    });
+
                 });
             });
             break;
@@ -59,10 +68,10 @@ module.exports = {
             drone.takePicture();
             break;
         case 'clockwise':
-            drone.clockwise(2);
+            drone.clockwise(60);
             break;
         case 'counter-clockwise':
-            drone.counterClockwise(2);
+            drone.counterClockwise(60);
             break;
         case 'stop':
             client.stop();

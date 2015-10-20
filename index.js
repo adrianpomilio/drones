@@ -1,7 +1,6 @@
 var Hapi = require('hapi');
 var Path = require('path');
-var bebop = require('node-bebop');
-var drone = bebop.createClient();
+
 var fc = require('./flight-controls.js');
 
 
@@ -11,24 +10,54 @@ var server = new Hapi.Server({ connections: {
 	}
 }
 });
+
+
+
+
 server.connection({
     host: 'localhost',
     port: 8000
 });
 
-server.route({
+server.route([{
     method: 'GET',
     path:'/{path*}',
     handler: {
         directory: {
-			path: './public',
+			path: './',
 			listing: false,
 			index: true
 		}
     }
+},
+{
+	method: 'GET',
+	path:'/scanner',
+	handler: function(request, reply){
+		var wifiscanner = require('node-wifiscanner/lib/wifiscanner.js');
+
+		wifiscanner.scan(function(err, data){
+			if (err) {
+				console.log("Error : " + err);
+				return;
+			}
+
+			reply(data);
+		});
+
+	}
+}]
+);
+
+
+var io = require('socket.io')(server.listener);
+io.on('connection', function(socket){
+  socket.on('command', function(msg){
+    console.log('command: ' + msg);
+	fc.flightControls(msg);
+	io.emit('response', msg);
+  });
 });
-
-
 
 // start hapi
 server.start(function () {

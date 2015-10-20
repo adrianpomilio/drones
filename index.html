@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Bebop</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" media="screen" title="no title" charset="utf-8">
+    <style>
+
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+
+
+        function sendCommand(str) {
+            console.log(str);
+            socket.emit('command', str);
+            return false;
+        }
+
+        socket.on('response', function(msg) {
+            document.getElementById('sensorData').innerHTML = msg;
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="panel panel-default">
+            <ul class="nav nav-pills nav-inline">
+                <li>
+                    <button class="btn btn-primary" onclick="sendCommand('takeoff')">Take off</button>
+                </li>
+                <li>
+                    <button class="btn btn-warning" onclick="sendCommand('land')">Land</button>
+                </li>
+                <li>
+                    <button class="btn btn-danger" onclick="sendCommand('emergency')">Emergency</button>
+                </li>
+            </ul>
+            <br />
+            <br />
+            <ul class="nav nav-pills nav-inline">
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('stop')">Stop</button>
+                </li>
+
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('left')">Left</button>
+                </li>
+
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('up')">Up</button>
+                </li>
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('down')">Down</button>
+                </li>
+
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('forward')">Forward</button>
+                </li>
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('back')">Back</button>
+                </li>
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('right')">Right</button>
+                </li>
+            </ul>
+            <br />
+            <br />
+            <ul class="nav nav-pills nav-inline">
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('clockwise')">Clockwise</button>
+                </li>
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('counter-clockwise')">Counter-clockwise</button>
+                </li>
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('flip-front')">Flip Front</button>
+                </li>
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('flip-back')">Flip Back</button>
+                </li>
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('flip-left')">Flip Left</button>
+                </li>
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('flip-right')">Flip Right</button>
+                </li>
+            </ul>
+            <br />
+            <br />
+            <ul class="nav nav-pills nav-inline">
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('record-start')">Record Start</button>
+                </li>
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('record-stop')">Record Stop</button>
+                </li>
+                <li>
+                    <button class="btn btn-info" onclick="sendCommand('picture')">Picture</button>
+                </li>
+            </ul>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Sensor Data</h3>
+            </div>
+            <div class="panel-body" id="sensorData"></div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Networks</h3>
+            </div>
+            <div class="panel-body" id="network"></div>
+        </div>
+    </div>
+
+    <script>
+        var req = new XMLHttpRequest();
+        req.addEventListener('load', reqListener);
+        req.open('GET', '/scanner');
+        req.send();
+
+        function reqListener() {
+            console.log(this.responseText);
+            document.getElementById('network').innerHTML = this.responseText;
+        }
+    </script>
+</body>
+
+</html>
